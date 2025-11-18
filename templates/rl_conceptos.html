@@ -2,218 +2,151 @@
 {% block title %}Conceptos básicos{% endblock %}
 
 {% block content %}
-<h1>Conceptos Básicos del Aprendizaje por Refuerzo (RL)</h1>
 
-<p>
-El Aprendizaje por Refuerzo (Reinforcement Learning, RL) es...
-<br><br>
+<h1 class="mb-4">Conceptos Básicos del Aprendizaje por Refuerzo (RL)</h1>
 
- 1. Síntesis teórica – “Conceptos básicos” de Aprendizaje por Refuerzo
+<!-- OBJETIVO -->
+<div class="card-custom mb-4">
+    <h2>🎯 Objetivo</h2>
+    <p>
+        Comprender los fundamentos del Aprendizaje por Refuerzo (Reinforcement Learning, RL)
+        y aplicarlos mediante la implementación de un agente capaz de aprender a interactuar
+        con un entorno definido. El objetivo es modelar un proceso de decisión secuencial,
+        entrenar al agente mediante retroalimentación basada en recompensas
+        y visualizar su desempeño mediante métricas y simulaciones dentro de una aplicación Flask.
+    </p>
+</div>
 
+<!-- INSTRUCCIONES -->
+<div class="card-custom mb-4">
+    <h2>📌 Instrucciones</h2>
 
+    <h4>1. Investigación – Conceptos básicos</h4>
+    <ul>
+        <li>Definir qué es el Aprendizaje por Refuerzo.</li>
+        <li>Diferencias entre aprendizaje supervisado, no supervisado y por refuerzo.</li>
+        <li>Explicar los componentes del modelo RL.</li>
+        <li>Describir exploración–explotación, retorno acumulado y descuento temporal.</li>
+        <li>Explicar Q-Learning, SARSA y Deep Q-Network.</li>
+        <li>Incluir buenas prácticas y 2–3 referencias APA 7.</li>
+    </ul>
 
-1.1. Definición general de Aprendizaje por Refuerzo y diferencia con otros enfoques
+    <h4>2. Desarrollo – Implementación del agente</h4>
+    <ul>
+        <li>Se utiliza un entorno GridWorld 5x5 como ejemplo.</li>
+        <li>Definir estados, acciones y función de recompensa.</li>
+        <li>Implementar un agente Q-Learning.</li>
+        <li>Registrar recompensas por episodio.</li>
+        <li>Graficar la evolución del aprendizaje.</li>
+        <li>Guardar el modelo entrenado (Q-table).</li>
+    </ul>
 
-El Aprendizaje por Refuerzo (Reinforcement Learning, RL) es un paradigma de aprendizaje automático en el que un agente aprende a tomar decisiones secuenciales interactuando con un entorno. En cada paso de tiempo, el agente observa un estado, selecciona una acción y recibe una recompensa (positiva o negativa) junto con un nuevo estado. El objetivo es aprender una política que maximice la suma de recompensas a largo plazo, llamada retorno acumulado. 
-Ideas Incompletas
+    <h4>3. Interfaz Web Flask</h4>
+    <ul>
+        <li>Agregar menú con dos secciones: Conceptos y Caso práctico.</li>
+        <li>Mostrar teoría completa y referencias APA.</li>
+        <li>Permitir entrenamiento interactivo del agente.</li>
+        <li>Visualizar gráficas, métricas y trayectoria.</li>
+    </ul>
 
-A diferencia del aprendizaje supervisado, donde el modelo aprende a partir de ejemplos etiquetados (entrada–salida correcta), en RL el agente no recibe directamente la “respuesta correcta”, sino que descubre por ensayo y error qué acciones conducen a mejores recompensas. El aprendizaje no supervisado, por su parte, busca estructuras o patrones en los datos (por ejemplo, agrupamientos) sin etiquetas ni señales de recompensa, mientras que RL se centra en la toma de decisiones en el tiempo bajo retroalimentación escalar (recompensas). 
-Ideas Incompletas
-+1
+    <h4>4. GitHub y flujo de trabajo</h4>
+    <ul>
+        <li>Crear rama <code>A12_ReinforcementLearning</code>.</li>
+        <li>Documentar funciones y parámetros.</li>
+        <li>Realizar commits atómicos y descriptivos.</li>
+        <li>Abrir Pull Request hacia la rama principal.</li>
+        <li>Agregar README con entorno, algoritmo y resultados obtenidos.</li>
+    </ul>
+</div>
 
-1.2. Componentes del modelo RL
+<!-- TEORÍA PRINCIPAL -->
+<div class="card-custom">
 
-Un problema de RL suele modelarse como un Proceso de Decisión de Markov (MDP) con los siguientes componentes:
+    <h2>📘 Síntesis Teórica del Aprendizaje por Refuerzo</h2>
 
-Agente: entidad que aprende y toma decisiones.
+    <h3>1. Definición general</h3>
+    <p>
+        El Aprendizaje por Refuerzo (Reinforcement Learning, RL) es un paradigma del aprendizaje automático
+        en el que un agente aprende a tomar decisiones mediante interacción con un entorno.
+        En cada paso, el agente observa un estado, ejecuta una acción, recibe una recompensa
+        y transiciona a un nuevo estado. El objetivo es aprender una política que maximice
+        la suma de recompensas esperadas a largo plazo.
+    </p>
 
-Entorno (Environment): “mundo” con el que interactúa el agente.
+    <h3>2. Comparación con Aprendizaje Supervisado y No Supervisado</h3>
+    <ul>
+        <li><b>Supervisado:</b> aprende a partir de ejemplos etiquetados.</li>
+        <li><b>No supervisado:</b> encuentra patrones sin etiquetas.</li>
+        <li><b>Refuerzo:</b> no recibe la respuesta correcta; aprende por ensayo y error mediante recompensas.</li>
+    </ul>
 
-Estados (S): representación de la situación actual del entorno.
+    <h3>3. Componentes del modelo RL</h3>
+    <ul>
+        <li><b>Agente:</b> quien aprende y decide.</li>
+        <li><b>Entorno (Environment):</b> el mundo donde actúa el agente.</li>
+        <li><b>Estados (S):</b> representan la situación actual.</li>
+        <li><b>Acciones (A):</b> decisiones posibles del agente.</li>
+        <li><b>Recompensa (R):</b> señal numérica evaluando la acción tomada.</li>
+        <li><b>Política (π):</b> función que mapea estados a acciones.</li>
+    </ul>
 
-Acciones (A): conjunto de decisiones que el agente puede tomar en cada estado.
+    <h3>4. Principios del ciclo de aprendizaje</h3>
 
-Recompensa (R): señal numérica que indica qué tan buena fue la acción tomada.
+    <h4>Exploración vs. Explotación</h4>
+    <p>
+        La estrategia ε-greedy define cuándo explorar nuevas acciones (probabilidad ε)
+        y cuándo explotar el conocimiento actual (probabilidad 1−ε).
+    </p>
 
-Política (π): regla (determinista o estocástica) que define qué acción tomar en cada estado.
+    <h4>Retorno acumulado</h4>
+    <p>
+        El retorno es la suma descontada de recompensas:
+    </p>
 
-El agente busca una política óptima π* que maximice el retorno esperado de recompensas a lo largo del tiempo. 
-Ideas Incompletas
+    <code>Gₜ = Σ γᵏ Rₜ₊ₖ₊₁</code>
 
-1.3. Principios del ciclo de aprendizaje
+    <h4>Descuento temporal (γ)</h4>
+    <p>
+        Controla cuánto valor tienen las recompensas futuras (0 ≤ γ ≤ 1).
+    </p>
 
-Exploración vs explotación:
+    <h3>5. Algoritmos principales</h3>
 
-Exploración: probar acciones nuevas para descubrir recompensas potencialmente mejores.
+    <h4>Q-Learning (off-policy)</h4>
+    <p>
+        Aprende la función Q(s,a) maximizando el valor futuro esperado.  
+        Actualización:
+    </p>
 
-Explotación: elegir las acciones que ya se sabe que dan buena recompensa.
-El equilibrio se suele controlar con una política ε-greedy, donde con probabilidad ε se explora y con 1−ε se explota.
+    <code>Q(s,a) ← Q(s,a) + α [ r + γ max Q(s',a') − Q(s,a) ]</code>
 
-Retorno acumulado y descuento temporal:
-El objetivo es maximizar el retorno acumulado:
+    <h4>SARSA (on-policy)</h4>
+    <p>
+        Actualiza usando la acción que realmente se tomó. Más conservador en entornos ruidosos.
+    </p>
 
-𝐺
-𝑡
-=
-∑
-𝑘
-=
-0
-∞
-𝛾
-𝑘
-𝑅
-𝑡
-+
-𝑘
-+
-1
-,
-G
-t
-	​
+    <h4>DQN (Deep Q-Network)</h4>
+    <p>
+        Utiliza redes neuronales para aproximar Q(s,a) en espacios complejos.  
+        Fue usado para jugar Atari con nivel humano.
+    </p>
 
-=
-k=0
-∑
-∞
-	​
+    <h3>6. Buenas prácticas</h3>
+    <ul>
+        <li>Ajustar correctamente α, γ y ε.</li>
+        <li>Disminuir ε progresivamente.</li>
+        <li>Diseñar recompensas coherentes.</li>
+        <li>Monitorear convergencia mediante promedios móviles.</li>
+        <li>En deep RL: usar experience replay y target networks.</li>
+    </ul>
 
-γ
-k
-R
-t+k+1
-	​
+    <h3>📚 Referencias APA 7</h3>
+    <ul>
+        <li>François-Lavet, V., Henderson, P., Islam, R., Bellemare, M. G., & Pineau, J. (2018). <i>An introduction to deep reinforcement learning.</i> Foundations and Trends in Machine Learning.</li>
+        <li>Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., et al. (2015). <i>Human-level control through deep reinforcement learning.</i> Nature.</li>
+        <li>Sutton, R. S., & Barto, A. G. (2018). <i>Reinforcement learning: An introduction</i> (2nd ed.). MIT Press.</li>
+    </ul>
 
-,
-
-donde 
-0
-≤
-𝛾
-≤
-1
-0≤γ≤1 es el factor de descuento. Un γ cercano a 1 valora las recompensas futuras, mientras que un γ bajo favorece las recompensas inmediatas.
-
-Actualización basada en diferencia temporal (TD):
-Muchos algoritmos de RL usan métodos de Diferencia Temporal (TD), que actualizan los valores de los estados o pares estado–acción usando la diferencia entre una estimación actual y una estimación bootstrap del futuro. 
-Ideas Incompletas
-
-1.4. Algoritmos principales y campo de aplicación
-
-Q-Learning:
-Algoritmo off-policy que aprende una función valor de acción 
-𝑄
-(
-𝑠
-,
-𝑎
-)
-Q(s,a) que aproxima el retorno esperado al tomar la acción a en el estado s y seguir la política óptima después. Su regla de actualización típica es:
-
-𝑄
-(
-𝑠
-,
-𝑎
-)
-←
-𝑄
-(
-𝑠
-,
-𝑎
-)
-+
-𝛼
- 
-[
-𝑟
-+
-𝛾
-max
-⁡
-𝑎
-′
-𝑄
-(
-𝑠
-′
-,
-𝑎
-′
-)
-−
-𝑄
-(
-𝑠
-,
-𝑎
-)
-]
-,
-Q(s,a)←Q(s,a)+α[r+γ
-a
-′
-max
-	​
-
-Q(s
-′
-,a
-′
-)−Q(s,a)],
-
-donde α es la tasa de aprendizaje. Se usa en problemas con espacio de estados discreto, como entornos tipo GridWorld o tareas simples de control. 
-Ideas Incompletas
-
-SARSA (State–Action–Reward–State–Action):
-Algoritmo on-policy que actualiza los valores Q usando la acción realmente seguida por la política de comportamiento. Es más conservador y a veces más estable en entornos estocásticos.
-
-Deep Q-Network (DQN):
-Combina RL con redes neuronales profundas para aproximar la función Q cuando los estados son de alta dimensión (por ejemplo, imágenes de videojuegos Atari). Introduce técnicas como experience replay y redes objetivo para estabilizar el entrenamiento. DQN alcanzó desempeño a nivel humano en varios juegos Atari. 
-Nature
-+1
-
-Los campos de aplicación incluyen videojuegos, robótica, sistemas de recomendación, finanzas, salud y control industrial, especialmente cuando las decisiones deben tomarse de manera secuencial en entornos cambiantes. 
-Now Publishers
-
-1.5. Buenas prácticas en RL
-
-Estabilidad del aprendizaje: usar tasas de aprendizaje moderadas, normalización de recompensas y, en DRL, técnicas como experience replay y redes objetivo. 
-arXiv
-+1
-
-Tasa de exploración: comenzar con un ε alto (mucha exploración) y disminuirlo gradualmente a medida que el agente aprende, evitando tanto la exploración eterna como el estancamiento prematuro.
-
-Manejo de recompensas: diseñar funciones de recompensa que incentiven el comportamiento deseado (por ejemplo, dar recompensas negativas por acciones peligrosas o por episodios demasiado largos).
-
-Convergencia: monitorear la recompensa promedio por episodio para detectar si el agente deja de mejorar. En tabular Q-Learning, con suficiente exploración y condiciones adecuadas, el algoritmo converge a la política óptima. 
-Ideas Incompletas
-
-Generalización: en deep RL, buscar que la política aprenda patrones que funcionen en estados no vistos, evitando sobreajuste al entorno de entrenamiento. 
-arXiv
-+1
-
-Referencias en formato APA 7 (puedes copiar tal cual)
-
-François-Lavet, V., Henderson, P., Islam, R., Bellemare, M. G., & Pineau, J. (2018). An introduction to deep reinforcement learning. Foundations and Trends in Machine Learning, 11(3–4), 219–354. https://doi.org/10.1561/2200000071
- 
-Now Publishers
-
-Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., … Hassabis, D. (2015). Human-level control through deep reinforcement learning. Nature, 518(7540), 529–533. https://doi.org/10.1038/nature14236
- 
-Nature
-
-Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). MIT Press. 
-Google Libros
-</p>
-
-<h3>Referencias APA</h3>
-<ul>
-    <li>François-Lavet, V. et al. (2018)...</li>
-    <li>Mnih, V. et al. (2015)...</li>
-    <li>Sutton, R. S., & Barto, A. (2018)...</li>
-</ul>
+</div>
 
 {% endblock %}

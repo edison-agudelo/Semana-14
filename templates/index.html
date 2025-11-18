@@ -2,26 +2,28 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
+
 <div class="text-center mt-5">
 
-    <h1 class="fw-bold mb-4">Bienvenido al Proyecto de Aprendizaje por Refuerzo</h1>
+    <h1 class="fw-bold mb-4">Aprendizaje por Refuerzo • Proyecto Académico</h1>
+
     <p class="lead mb-5">
         Explora los conceptos fundamentales del Aprendizaje por Refuerzo e interactúa con un agente
-        entrenado mediante Q-Learning en un entorno GridWorld.
+        entrenado mediante Q-Learning en un entorno GridWorld dentro de una aplicación Flask.
     </p>
 
-    <!-- BOTONES -->
     <div class="d-flex justify-content-center gap-4">
 
-        <a href="/rl/conceptos" class="btn btn-primary btn-lg px-5 py-3 shadow">
-             Conceptos Básicos
+        <a href="/rl/conceptos" class="btn btn-outline-success btn-lg px-5 py-3 shadow-sm">
+             📘 Conceptos Básicos
         </a>
 
-        <a href="/rl/caso-practico" class="btn btn-success btn-lg px-5 py-3 shadow">
-             Caso Práctico (Q-Learning)
+        <a href="/rl/caso-practico" class="btn btn-success btn-lg px-5 py-3 shadow-sm">
+             🧪 Caso Práctico (Q-Learning)
         </a>
 
     </div>
 
 </div>
+
 {% endblock %}

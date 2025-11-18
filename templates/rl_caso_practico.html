@@ -3,10 +3,11 @@
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
     table td {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         text-align: center;
         vertical-align: middle;
         font-weight: bold;
@@ -15,91 +16,123 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Caso Práctico: GridWorld con Q-Learning</h1>
+
+<!-- TARJETA DE INTRODUCCIÓN -->
+<div class="card-custom mb-4">
+    <h2>🧪 Caso Práctico: Entrenamiento con Q-Learning</h2>
+    <p>
+        En este caso práctico implementamos un agente basado en <b>Q-Learning</b> dentro de un entorno
+        <b>GridWorld 5x5</b>. Desde esta interfaz puedes:
+    </p>
+    <ul>
+        <li>Configurar parámetros clave del aprendizaje.</li>
+        <li>Entrenar al agente y visualizar la recompensa por episodio.</li>
+        <li>Ejecutar la política aprendida y ver la trayectoria en el grid.</li>
+        <li>Interpretar el comportamiento del agente con retroalimentación numérica.</li>
+    </ul>
+</div>
+
+<h1 class="mb-4">GridWorld con Q-Learning</h1>
 
 <div class="row">
-    <!-- PANEL IZQUIERDO: PARÁMETROS -->
+
+    <!-- PANEL IZQUIERDO -->
     <div class="col-md-4">
-        <h4>Parámetros de Entrenamiento</h4>
 
-        <form id="train-form">
-            <div class="mb-2">
-                <label class="form-label">Episodios</label>
-                <input type="number" id="episodes" class="form-control" value="500">
-            </div>
+        <div class="card-custom mb-4">
+            <h4 class="mb-3">⚙️ Parámetros de Entrenamiento</h4>
 
-            <div class="mb-2">
-                <label class="form-label">Máx. pasos por episodio</label>
-                <input type="number" id="max_steps" class="form-control" value="100">
-            </div>
+            <form id="train-form">
 
-            <div class="mb-2">
-                <label class="form-label">α (Learning rate)</label>
-                <input type="number" step="0.01" id="alpha" class="form-control" value="0.1">
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">Episodios</label>
+                    <input type="number" id="episodes" class="form-control" value="500">
+                </div>
 
-            <div class="mb-2">
-                <label class="form-label">γ (Discount factor)</label>
-                <input type="number" step="0.01" id="gamma" class="form-control" value="0.99">
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">Máx. pasos por episodio</label>
+                    <input type="number" id="max_steps" class="form-control" value="100">
+                </div>
 
-            <div class="mb-2">
-                <label class="form-label">ε inicial</label>
-                <input type="number" step="0.01" id="epsilon" class="form-control" value="1.0">
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">α (Learning rate)</label>
+                    <input type="number" step="0.01" id="alpha" class="form-control" value="0.1">
+                </div>
 
-            <div class="mb-2">
-                <label class="form-label">ε mínimo</label>
-                <input type="number" step="0.01" id="epsilon_min" class="form-control" value="0.01">
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">γ (Discount factor)</label>
+                    <input type="number" step="0.01" id="gamma" class="form-control" value="0.99">
+                </div>
 
-            <div class="mb-2">
-                <label class="form-label">Decay de ε</label>
-                <input type="number" step="0.001" id="epsilon_decay" class="form-control" value="0.995">
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">ε inicial</label>
+                    <input type="number" step="0.01" id="epsilon" class="form-control" value="1.0">
+                </div>
 
-            <button type="button" id="btn-train" class="btn btn-primary mt-2 w-100">
-                Iniciar Entrenamiento
+                <div class="mb-2">
+                    <label class="form-label">ε mínimo</label>
+                    <input type="number" step="0.01" id="epsilon_min" class="form-control" value="0.01">
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Decay de ε</label>
+                    <input type="number" step="0.001" id="epsilon_decay" class="form-control" value="0.995">
+                </div>
+
+                <button type="button" id="btn-train"
+                        class="btn btn-success mt-3 w-100 shadow-sm">
+                    🚀 Iniciar Entrenamiento
+                </button>
+
+            </form>
+        </div>
+
+        <!-- INDICADORES -->
+        <div class="card-custom">
+            <h4 class="mb-3">📊 Indicadores de Progreso</h4>
+
+            <p>Episodios entrenados: <b id="lbl-episodes">0</b></p>
+            <p>ε final: <b id="lbl-epsilon">-</b></p>
+            <p>Recompensa promedio (últimos 50 episodios): <b id="lbl-avg-reward">-</b></p>
+
+            <button type="button" id="btn-test"
+                    class="btn btn-primary mt-3 w-100 shadow-sm">
+                ▶️ Probar política aprendida
             </button>
-        </form>
-
-        <hr>
-
-        <h5>Indicadores</h5>
-        <p>Episodios entrenados: <b id="lbl-episodes">0</b></p>
-        <p>ε final: <b id="lbl-epsilon">-</b></p>
-        <p>Recompensa promedio (últimos 50): <b id="lbl-avg-reward">-</b></p>
-
-        <button type="button" id="btn-test" class="btn btn-success mt-2 w-100">
-            Probar política aprendida
-        </button>
+        </div>
     </div>
 
-    <!-- PANEL DERECHO: GRÁFICA Y GRID -->
+    <!-- PANEL DERECHO -->
     <div class="col-md-8">
 
-        <h4>Recompensa por Episodio</h4>
-        <canvas id="rewardChart" height="120"></canvas>
+        <div class="card-custom mb-4">
+            <h4>📈 Recompensa por Episodio</h4>
+            <canvas id="rewardChart" height="120"></canvas>
+        </div>
 
-        <hr>
+        <div class="card-custom">
+            <h4>🧭 Trayectoria del Agente (GridWorld 5x5)</h4>
 
-        <h4>Trayectoria del Agente (GridWorld 5x5)</h4>
-        <div id="grid-container" class="mt-3"></div>
+            <div id="grid-container" class="mt-3"></div>
 
-        <p class="mt-3">Recompensa total: <b id="lbl-total-reward">-</b></p>
+            <p class="mt-3">
+                Recompensa total del episodio: <b id="lbl-total-reward">-</b>
+            </p>
+        </div>
+
     </div>
+
 </div>
 
 {% endblock %}
 
-
 {% block scripts %}
 <script>
+
 let rewardChart = null;
 
-
 /* =====================================================
-   CREAR GRID 5x5 Y MARCAR TRAYECTORIA
+   CREAR GRID
 ===================================================== */
 function createGrid(trajectory = null) {
     const container = document.getElementById("grid-container");
@@ -132,9 +165,10 @@ function createGrid(trajectory = null) {
                 cell.classList.add("table-dark");
             }
 
-            // Marcar trayectoria aprendida
+            // Trayectoria aprendida
             if (trajectory) {
                 const step = trajectory.find(t => t.row === r && t.col === c);
+
                 if (step) {
                     cell.classList.add("table-warning");
                     cell.innerText = (cell.innerText || "") + " •";
@@ -150,10 +184,8 @@ function createGrid(trajectory = null) {
     container.appendChild(table);
 }
 
-
-
 /* =====================================================
-   ENTRENAR AGENTE (API /api/rl/train)
+   ENTRENAR AGENTE
 ===================================================== */
 document.getElementById("btn-train").addEventListener("click", async () => {
 
@@ -180,12 +212,13 @@ document.getElementById("btn-train").addEventListener("click", async () => {
         return;
     }
 
-    // Actualizar indicadores
     document.getElementById("lbl-episodes").innerText = data.episodes;
-    document.getElementById("lbl-epsilon").innerText = data.epsilons[data.epsilons.length - 1].toFixed(3);
-    document.getElementById("lbl-avg-reward").innerText = data.avg_reward_last_50.toFixed(2);
+    document.getElementById("lbl-epsilon").innerText =
+        data.epsilons[data.epsilons.length - 1].toFixed(3);
+    document.getElementById("lbl-avg-reward").innerText =
+        data.avg_reward_last_50.toFixed(2);
 
-    // Crear gráfica
+    // GRÁFICA
     const ctx = document.getElementById("rewardChart").getContext("2d");
 
     if (rewardChart) rewardChart.destroy();
@@ -209,13 +242,10 @@ document.getElementById("btn-train").addEventListener("click", async () => {
     });
 });
 
-
-
 /* =====================================================
-   EJECUTAR POLÍTICA APRENDIDA
+   PROBAR POLÍTICA
 ===================================================== */
 document.getElementById("btn-test").addEventListener("click", async () => {
-
     const resp = await fetch("/api/rl/run_episode");
     const data = await resp.json();
 
@@ -225,11 +255,11 @@ document.getElementById("btn-test").addEventListener("click", async () => {
     }
 
     createGrid(data.trajectory);
-    document.getElementById("lbl-total-reward").innerText = data.total_reward.toFixed(2);
+    document.getElementById("lbl-total-reward").innerText =
+        data.total_reward.toFixed(2);
 });
 
-
-/* GRID INICIAL VACÍO */
+/* GRID INICIAL */
 createGrid();
 
 </script>
