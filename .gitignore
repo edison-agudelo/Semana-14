@@ -1,0 +1,19 @@
+# Ignorar cachés de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar modelos y tablas entrenadas
+*.pkl
+*.h5
+*.joblib
+
+# Ignorar entornos y archivos locales
+.env
+.vscode/
+.idea/
+.DS_Store
+
+# Ignorar logs
+*.log
